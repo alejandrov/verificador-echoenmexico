@@ -20,16 +20,18 @@
 
     <div id="resultado" style="display:none;"></div>
 
-    <% if (codigo) { %>
-        <h2>Resultado para "<%= codigo %>":</h2>
-        <% if (resultado === true) { %>
-            <p>✅ Sí, está hecho en México.</p>
-        <% } else if (resultado === false) { %>
-            <p>❌ No, no está hecho en México.</p>
-        <% } else { %>
-            <p>⚠️ No tenemos información sobre este producto.</p>
+    <div id="codigo-resultado" style="display:block;">
+        <% if (codigo) { %>
+            <h2>Resultado para "<%= codigo %>":</h2>
+            <% if (resultado === true) { %>
+                <p>✅ Sí, está hecho en México.</p>
+            <% } else if (resultado === false) { %>
+                <p>❌ No, no está hecho en México.</p>
+            <% } else { %>
+                <p>⚠️ No tenemos información sobre este producto.</p>
+            <% } %>
         <% } %>
-    <% } %>
+    </div>
 
     <script>
         function startScanner() {
@@ -37,6 +39,7 @@
             document.getElementById('cancel-btn').style.display = 'inline';
             document.getElementById('resultado').style.display = 'none'; // Oculta resultado anterior
             document.getElementById('resultado').innerHTML = "";
+            document.getElementById('codigo-resultado').style.display = 'none'; // Oculta el resultado mientras la cámara está abierta
             
             Quagga.init({
                 inputStream: {
@@ -70,6 +73,7 @@
             Quagga.stop();
             document.getElementById('scanner-container').style.display = 'none';
             document.getElementById('cancel-btn').style.display = 'none';
+            document.getElementById('codigo-resultado').style.display = 'block'; // Muestra el resultado nuevamente
         }
     </script>
 </body>
