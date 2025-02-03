@@ -20,6 +20,17 @@
 
     <div id="resultado" style="display:none;"></div>
 
+    <% if (codigo) { %>
+        <h2>Resultado para "<%= codigo %>":</h2>
+        <% if (resultado === true) { %>
+            <p>✅ Sí, está hecho en México.</p>
+        <% } else if (resultado === false) { %>
+            <p>❌ No, no está hecho en México.</p>
+        <% } else { %>
+            <p>⚠️ No tenemos información sobre este producto.</p>
+        <% } %>
+    <% } %>
+
     <script>
         function startScanner() {
             document.getElementById('scanner-container').style.display = 'block';
@@ -49,8 +60,7 @@
             Quagga.onDetected(function(result) {
                 let code = result.codeResult.code;
                 document.getElementById("codigo").value = code;
-                document.getElementById("resultado").innerHTML = `<h2>Resultado para "${code}":</h2>`;
-                document.getElementById("resultado").style.display = 'block';
+                document.getElementById("barcode-form").submit();
                 Quagga.stop();
                 stopScanner(); // Oculta cámara después de leer
             });
