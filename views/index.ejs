@@ -98,7 +98,8 @@
                 let code = result.codeResult.code;
                 document.getElementById("codigo").value = code;
                 document.getElementById("barcode-form").submit();
-                saveToHistory(code, false); // Guardar el código escaneado en el historial con resultado "false" por defecto
+                const hechoEnMexico = code.startsWith("750"); // Verificar si el producto está hecho en México
+                saveToHistory(code, hechoEnMexico); // Guardar el código escaneado en el historial
                 Quagga.stop();
                 stopScanner(); // Oculta cámara después de leer
             });
@@ -107,15 +108,4 @@
         function stopScanner() {
             Quagga.stop();
             document.getElementById('scanner-container').style.display = 'none';
-            document.getElementById('cancel-btn').style.display = 'none';
-            document.getElementById('start-btn').style.display = 'inline'; // Muestra el botón "Abrir Cámara"
-            document.getElementById('codigo-resultado').style.display = 'block'; // Muestra el resultado nuevamente
-        }
-
-        // Cargar el historial cuando la página se cargue
-        window.onload = function() {
-            loadHistory();
-        }
-    </script>
-</body>
-</html>
+            document.getEle
