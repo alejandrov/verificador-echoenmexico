@@ -33,7 +33,40 @@
         <% } %>
     </div>
 
+    <h3>Historial de Búsquedas</h3>
+    <ul id="history-list"></ul>
+    <button onclick="clearHistory()">Limpiar Historial</button>
+
     <script>
+        // Función para cargar el historial desde localStorage
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('barcodeHistory')) || [];
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = ''; // Limpiar la lista actual
+
+            history.forEach((code) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = code;
+                historyList.appendChild(listItem);
+            });
+        }
+
+        // Función para guardar una búsqueda en el historial
+        function saveToHistory(code) {
+            const history = JSON.parse(localStorage.getItem('barcodeHistory')) || [];
+            if (!history.includes(code)) {
+                history.push(code);
+                localStorage.setItem('barcodeHistory', JSON.stringify(history));
+            }
+            loadHistory(); // Actualizar la lista del historial
+        }
+
+        // Función para limpiar el historial
+        function clearHistory() {
+            localStorage.removeItem('barcodeHistory');
+            loadHistory(); // Limpiar la lista de historial en la interfaz
+        }
+
         function startScanner() {
             document.getElementById('scanner-container').style.display = 'block';
             document.getElementById('cancel-btn').style.display = 'inline';
@@ -65,6 +98,7 @@
                 let code = result.codeResult.code;
                 document.getElementById("codigo").value = code;
                 document.getElementById("barcode-form").submit();
+                saveToHistory(code); // Guardar el código escaneado en el historial
                 Quagga.stop();
                 stopScanner(); // Oculta cámara después de leer
             });
@@ -76,6 +110,11 @@
             document.getElementById('cancel-btn').style.display = 'none';
             document.getElementById('start-btn').style.display = 'inline'; // Muestra el botón "Abrir Cámara"
             document.getElementById('codigo-resultado').style.display = 'block'; // Muestra el resultado nuevamente
+        }
+
+        // Cargar el historial cuando la página se cargue
+        window.onload = function() {
+            loadHistory();
         }
     </script>
 </body>
