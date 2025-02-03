@@ -9,7 +9,7 @@
 <body>
     <h1>Escanea un Código de Barras</h1>
 
-    <button onclick="startScanner()">Abrir Cámara</button>
+    <button onclick="startScanner()" id="start-btn">Abrir Cámara</button>
     <button onclick="stopScanner()" style="display:none;" id="cancel-btn">Cancelar</button>
     
     <div id="scanner-container" style="width: 80%; height: 200px; display: none;"></div>
@@ -37,6 +37,7 @@
         function startScanner() {
             document.getElementById('scanner-container').style.display = 'block';
             document.getElementById('cancel-btn').style.display = 'inline';
+            document.getElementById('start-btn').style.display = 'none'; // Oculta el botón "Abrir Cámara"
             document.getElementById('resultado').style.display = 'none'; // Oculta resultado anterior
             document.getElementById('resultado').innerHTML = "";
             document.getElementById('codigo-resultado').style.display = 'none'; // Oculta el resultado mientras la cámara está abierta
@@ -73,6 +74,7 @@
             Quagga.stop();
             document.getElementById('scanner-container').style.display = 'none';
             document.getElementById('cancel-btn').style.display = 'none';
+            document.getElementById('start-btn').style.display = 'inline'; // Muestra el botón "Abrir Cámara"
             document.getElementById('codigo-resultado').style.display = 'block'; // Muestra el resultado nuevamente
         }
     </script>
