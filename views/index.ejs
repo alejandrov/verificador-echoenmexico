@@ -44,18 +44,18 @@
             const historyList = document.getElementById('history-list');
             historyList.innerHTML = ''; // Limpiar la lista actual
 
-            history.forEach((code) => {
+            history.forEach((item) => {
                 const listItem = document.createElement('li');
-                listItem.textContent = code;
+                listItem.textContent = `${item.codigo} - ${item.hechoEnMexico ? "✅ Hecho en México" : "❌ No hecho en México"}`;
                 historyList.appendChild(listItem);
             });
         }
 
         // Función para guardar una búsqueda en el historial
-        function saveToHistory(code) {
+        function saveToHistory(code, hechoEnMexico) {
             const history = JSON.parse(localStorage.getItem('barcodeHistory')) || [];
-            if (!history.includes(code)) {
-                history.push(code);
+            if (!history.some(item => item.codigo === code)) {
+                history.push({ codigo: code, hechoEnMexico: hechoEnMexico });
                 localStorage.setItem('barcodeHistory', JSON.stringify(history));
             }
             loadHistory(); // Actualizar la lista del historial
@@ -98,7 +98,7 @@
                 let code = result.codeResult.code;
                 document.getElementById("codigo").value = code;
                 document.getElementById("barcode-form").submit();
-                saveToHistory(code); // Guardar el código escaneado en el historial
+                saveToHistory(code, false); // Guardar el código escaneado en el historial con resultado "false" por defecto
                 Quagga.stop();
                 stopScanner(); // Oculta cámara después de leer
             });
